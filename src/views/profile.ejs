@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+<hgroup>
+  <h1>@<%= profile.username %></h1>
+  <p>Membro desde <%= profile.createdAt.toLocaleDateString('pt-BR') %> · <%= profile.reviews.length %> avaliações</p>
+</hgroup>
+
+<% if (editing) { %>
+  <form method="post" action="/profile">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label>E-mail <input type="email" name="email" value="<%= profile.email %>" required></label>
+    <label>Bio <textarea name="bio" maxlength="300" rows="3"><%= profile.bio %></textarea></label>
+    <div class="actions">
+      <button>Salvar</button>
+      <a href="/users/<%= profile.username %>" role="button" class="outline secondary">Cancelar</a>
+    </div>
+  </form>
+<% } else { %>
+  <% if (profile.bio) { %><p class="bio"><%= profile.bio %></p><% } %>
+  <% if (isOwner) { %>
+    <p><small>E-mail (visível só para você): <%= profile.email %></small></p>
+    <a href="/users/<%= profile.username %>?edit=1" role="button" class="outline small">Editar perfil</a>
+  <% } %>
+<% } %>
+
+<h2>Avaliações</h2>
+<% if (profile.reviews.length === 0) { %><p>Nenhuma avaliação ainda.</p><% } %>
+<% profile.reviews.forEach(r => { %><%- include('partials/review-item', { r, showUser: false, showGame: true }) %><% }) %>
+<%- include('partials/footer') %>
