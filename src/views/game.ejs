@@ -28,7 +28,7 @@
   <dt>Plataformas</dt><dd><%= nomes(plataformas) %></dd>
   <dt>Gêneros</dt><dd><%= nomes(game.genres) %></dd>
   <dt>Classificação etária</dt><dd><%= esrb %></dd>
-  <dt>Categorias (tags)</dt>
+  <dt>Categorias</dt>
   <dd class="tags"><% if (tags.length) { %><% tags.forEach((t) => { %><span><%= t.name %></span><% }) %><% } else { %>—<% } %></dd>
 </dl>
 
