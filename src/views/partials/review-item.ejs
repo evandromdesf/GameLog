@@ -1,0 +1,20 @@
+<article class="review">
+  <header>
+    <% if (showUser) { %><a href="/users/<%= r.user.username %>">@<%= r.user.username %></a><% } %>
+    <% if (showGame) { %><a href="/games/<%= r.game.rawgId %>"><strong><%= r.game.name %></strong></a><% } %>
+    <span class="stars"><%- stars(r.rating) %></span> <small>(<%= String(r.rating / 2).replace('.', ',') %>)</small>
+  </header>
+  <% if (r.text) { %><p><%= r.text %></p><% } %>
+  <footer>
+    <small><%= r.createdAt.toLocaleDateString('pt-BR') %></small>
+    <% if (user && user.id === r.userId) { %>
+      <div class="actions">
+        <a href="/games/<%= r.game.rawgId %>?edit=1" role="button" class="outline secondary small">Editar</a>
+        <form method="post" action="/reviews/<%= r.id %>/delete" class="inline-form" data-confirm="Apagar esta avaliação?">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button class="outline secondary small">Apagar</button>
+        </form>
+      </div>
+    <% } %>
+  </footer>
+</article>
