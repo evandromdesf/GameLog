@@ -1,0 +1,43 @@
+/* ajustes por cima do Pico */
+.inline-form { margin: 0; display: inline; }
+.inline-form button { margin: 0; }
+button.small, a[role=button].small { padding: 0.2rem 0.6rem; font-size: 0.8rem; margin: 0; }
+.actions { display: flex; gap: 0.5rem; align-items: center; }
+
+.flash { padding: 0.8rem 1rem; }
+.flash.success { border-left: 4px solid #2ecc71; }
+.flash.error { border-left: 4px solid #e74c3c; }
+
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+.game-card { margin: 0; padding: 0; overflow: hidden; }
+.game-card a { text-decoration: none; }
+.game-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+.game-card h4 { margin: 0.6rem 0.8rem 0.2rem; font-size: 1rem; }
+.game-card small { display: block; margin: 0 0.8rem 0.8rem; }
+
+.cover { width: 100%; aspect-ratio: 21 / 9; max-height: 360px; object-fit: cover; border-radius: 0.5rem; display: block; margin-bottom: 1rem; }
+.shot { width: 100%; aspect-ratio: 16 / 9; max-height: 420px; object-fit: cover; border-radius: 0.5rem; display: block; margin-bottom: 1rem; }
+.info { display: grid; grid-template-columns: max-content 1fr; gap: 0.6rem 1.5rem; }
+.info dt { font-weight: 600; }
+.info dd { margin: 0; }
+.tags span { display: inline-block; padding: 0.1rem 0.7rem; margin: 0.15rem 0.2rem 0.15rem 0; border-radius: 1rem; background: var(--pico-muted-border-color); font-size: 0.8rem; }
+@media (max-width: 600px) { .info { grid-template-columns: 1fr; } .info dd { margin-bottom: 0.6rem; } }
+.desc, .review p, .bio { white-space: pre-line; }
+
+.review { margin: 0 0 1rem; }
+.review footer { display: flex; justify-content: space-between; align-items: center; }
+.stars { font-size: 1.1rem; }
+.stars .star { color: #666; }
+.stars .star.full { color: #f5c518; }
+.stars .star.half { background: linear-gradient(90deg, #f5c518 50%, #666 50%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.pager { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+
+/* seletor de estrelas (main) */
+#star-picker { margin-bottom: 1rem; }
+#star-picker .star { font-size: 2.2rem; cursor: pointer; color: #666; user-select: none; }
+#star-picker .star.full { color: #f5c518; }
+#star-picker .star.half {
+  background: linear-gradient(90deg, #f5c518 50%, #666 50%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
