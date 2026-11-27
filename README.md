@@ -8,7 +8,7 @@ Mini Letterboxd para jogos: busque jogos (API da [RAWG](https://rawg.io)), dê n
 
 1. Requer [Node.js] 20 ou mais novo.
 2. `npm install`
-3. Copie `.env.example` para `.env` e preencha `RAWG_KEY` (chave grátios disponível em https://rawg.io/apidocs) e `SESSION_SECRET`.
+3. Copie `.env.example` para `.env` e preencha `RAWG_KEY` (chave grátis disponível em https://rawg.io/apidocs) e `SESSION_SECRET`.
 4. `npx prisma db push` (cria o banco)
 5. `npm run dev` e abra http://localhost:3000
 
