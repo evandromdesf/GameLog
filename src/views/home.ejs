@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+<hgroup>
+  <h1>Registre e avalie os jogos que você jogou</h1>
+  <p>Um mini Letterboxd para games. Dê notas, escreva reviews e descubra o que a comunidade acha.</p>
+</hgroup>
+<form method="get" action="/games" role="search">
+  <input type="search" name="search" placeholder="Buscar um jogo…" maxlength="100">
+  <button>Buscar</button>
+</form>
+
+<h2>Populares</h2>
+<% if (popular.length === 0) { %>
+  <p>Não foi possível carregar os jogos agora.</p>
+<% } else { %>
+  <div class="grid-cards">
+    <% popular.forEach(g => { %><%- include('partials/game-card', { g }) %><% }) %>
+  </div>
+<% } %>
+
+<h2>Últimas avaliações</h2>
+<% if (latest.length === 0) { %>
+  <p>Ainda não há avaliações. Seja o primeiro!</p>
+<% } %>
+<% latest.forEach(r => { %><%- include('partials/review-item', { r, showUser: true, showGame: true }) %><% }) %>
+<%- include('partials/footer') %>

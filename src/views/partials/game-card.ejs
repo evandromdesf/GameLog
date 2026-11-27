@@ -1,0 +1,7 @@
+<article class="game-card">
+  <a href="/games/<%= g.id %>">
+    <% if (g.background_image) { %><img src="<%= thumb(g.background_image) %>" alt="" loading="lazy"><% } %>
+    <h4><%= g.name %></h4>
+  </a>
+  <small><%= g.released || 'Sem data' %></small>
+</article>

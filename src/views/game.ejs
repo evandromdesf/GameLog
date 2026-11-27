@@ -1,0 +1,67 @@
+<%- include('partials/header') %>
+<%
+  const nomes = (lista) => (lista && lista.length ? lista.map((x) => x.name).join(', ') : '—');
+  const plataformas = (game.platforms || []).map((p) => p.platform);
+  const data = game.released ? game.released.split('-').reverse().join('/') : '—';
+%>
+<% if (game.background_image) { %><img class="cover" src="<%= thumb(game.background_image, 1280) %>" alt="Banner de <%= game.name %>"><% } %>
+<hgroup>
+  <h1><%= game.name %></h1>
+  <p>
+    Comunidade:
+    <% if (avg) { %><%= avg.replace('.', ',') %>/5 (<%= count %> avaliações)<% } else { %>ainda sem avaliações<% } %>
+    <% if (game.metacritic) { %> · Metacritic: <%= game.metacritic %><% } %>
+  </p>
+</hgroup>
+
+<h2>Sobre</h2>
+<p class="desc"><%= game.description_raw || 'Sem descrição disponível.' %></p>
+<% if (game.background_image_additional) { %>
+  <img class="shot" src="<%= thumb(game.background_image_additional, 1280) %>" alt="Imagem de <%= game.name %>" loading="lazy">
+<% } %>
+
+<h2>Informações</h2>
+<dl class="info">
+  <dt>Data de lançamento</dt><dd><%= data %></dd>
+  <dt>Desenvolvedora</dt><dd><%= nomes(game.developers) %></dd>
+  <dt>Publicadora</dt><dd><%= nomes(game.publishers) %></dd>
+  <dt>Plataformas</dt><dd><%= nomes(plataformas) %></dd>
+  <dt>Gêneros</dt><dd><%= nomes(game.genres) %></dd>
+  <dt>Classificação etária</dt><dd><%= esrb %></dd>
+  <dt>Categorias (tags)</dt>
+  <dd class="tags"><% if (tags.length) { %><% tags.forEach((t) => { %><span><%= t.name %></span><% }) %><% } else { %>—<% } %></dd>
+</dl>
+
+<h2><%= myReview ? 'Sua avaliação' : 'Avaliar este jogo' %></h2>
+<% if (!user) { %>
+  <p><a href="/login">Entre</a> ou <a href="/register">crie uma conta</a> para avaliar.</p>
+<% } else if (myReview && !editing) { %>
+  <article class="flash success">Você já avaliou este jogo. Esta é a sua avaliação:</article>
+  <%- include('partials/review-item', { r: myReview, showUser: false, showGame: false }) %>
+<% } else { %>
+  <form id="review-form" method="post" action="/games/<%= game.id %>/review">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <label>Nota
+      <select name="rating" id="rating-select" required>
+        <option value="">Escolha…</option>
+        <% for (let i = 1; i <= 10; i++) { %>
+          <option value="<%= i %>" <%= myReview && myReview.rating === i ? 'selected' : '' %>><%= String(i / 2).replace('.', ',') %> estrelas</option>
+        <% } %>
+      </select>
+    </label>
+    <div id="star-picker" hidden></div>
+    <label>Sua opinião (opcional)
+      <textarea name="text" maxlength="2000" rows="4"><%= myReview ? myReview.text : '' %></textarea>
+    </label>
+    <div class="actions">
+      <button>Salvar avaliação</button>
+      <% if (editing) { %><a href="/games/<%= game.id %>" role="button" class="outline secondary">Cancelar</a><% } %>
+    </div>
+    <p id="review-msg" role="status"></p>
+  </form>
+<% } %>
+
+<h2>Avaliações da comunidade</h2>
+<% if (reviews.length === 0) { %><p>Nenhuma outra avaliação ainda.</p><% } %>
+<% reviews.forEach(r => { %><%- include('partials/review-item', { r, showUser: true, showGame: false }) %><% }) %>
+<%- include('partials/footer') %>
