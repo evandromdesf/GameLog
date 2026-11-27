@@ -1,7 +1,13 @@
-<article class="game-card">
+<article class="game-card" data-theme="dark">
   <a href="/games/<%= g.id %>">
-    <% if (g.background_image) { %><img src="<%= thumb(g.background_image) %>" alt="" loading="lazy"><% } %>
+    <div class="capa">
+      <% if (g.background_image) { %>
+        <img src="<%= thumb(g.background_image) %>" alt="" loading="lazy">
+      <% } %>
+    </div>
+
     <h4><%= g.name %></h4>
   </a>
-  <small><%= g.released || 'Sem data' %></small>
+
+  <small><%= g.released ? g.released.split('-').reverse().join('/') : 'Sem data' %></small>
 </article>

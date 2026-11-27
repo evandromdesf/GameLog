@@ -1,10 +1,25 @@
-<%- include('partials/header') %>
-<h1>Entrar</h1>
-<form method="post" action="/login">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  <label>E-mail <input type="email" name="email" value="<%= values.email || '' %>" required></label>
-  <label>Senha <input type="password" name="password" required></label>
-  <button>Entrar</button>
-</form>
-<p>Não tem conta? <a href="/register">Criar conta</a></p>
+<%- include('partials/header', { dark: true }) %>
+
+<section class="auth-frame" data-theme="dark">
+  <h1>Entrar</h1>
+
+  <form method="post" action="/login">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <label>
+      E-mail
+      <input type="email" name="email" value="<%= values.email || '' %>" required>
+    </label>
+
+    <label>
+      Senha
+      <input type="password" name="password" required>
+    </label>
+
+    <button>Entrar</button>
+  </form>
+
+  <p>Não tem conta? <a href="/register">Criar conta</a></p>
+</section>
+
 <%- include('partials/footer') %>

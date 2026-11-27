@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 <h1>Jogos</h1>
-<form method="get" action="/games" class="grid">
-  <input type="search" name="search" placeholder="Nome do jogo" value="<%= search %>" maxlength="100">
+<form method="get" action="/games" class="filtros">
+  <input type="text" name="search" placeholder="Nome do jogo" value="<%= search %>" maxlength="100">
   <select name="genres">
     <option value="">Todos os gêneros</option>
     <% genreList.forEach(g => { %>
@@ -9,7 +9,10 @@
     <% }) %>
   </select>
   <input type="number" name="year" placeholder="Ano de lançamento" min="1970" max="2100" value="<%= year %>">
-  <button>Buscar</button>
+  <button>
+    <span>buscar</span>
+    <span class="icone-diamante" aria-hidden="true"></span>
+  </button>
 </form>
 
 <% if (error) { %><article class="flash error"><%= error %></article><% } %>

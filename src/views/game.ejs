@@ -4,7 +4,9 @@
   const plataformas = (game.platforms || []).map((p) => p.platform);
   const data = game.released ? game.released.split('-').reverse().join('/') : '—';
 %>
-<% if (game.background_image) { %><img class="cover" src="<%= thumb(game.background_image, 1280) %>" alt="Banner de <%= game.name %>"><% } %>
+<% if (game.background_image) { %>
+  <img class="cover" src="<%= thumb(game.background_image, 1280) %>" alt="Banner de <%= game.name %>">
+<% } %>
 <hgroup>
   <h1><%= game.name %></h1>
   <p>
@@ -39,7 +41,7 @@
   <article class="flash success">Você já avaliou este jogo. Esta é a sua avaliação:</article>
   <%- include('partials/review-item', { r: myReview, showUser: false, showGame: false }) %>
 <% } else { %>
-  <form id="review-form" method="post" action="/games/<%= game.id %>/review">
+  <form id="review-form" data-theme="dark" method="post" action="/games/<%= game.id %>/review">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <label>Nota
       <select name="rating" id="rating-select" required>

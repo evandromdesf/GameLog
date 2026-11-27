@@ -1,43 +1,698 @@
-/* ajustes por cima do Pico */
-.inline-form { margin: 0; display: inline; }
-.inline-form button { margin: 0; }
-button.small, a[role=button].small { padding: 0.2rem 0.6rem; font-size: 0.8rem; margin: 0; }
-.actions { display: flex; gap: 0.5rem; align-items: center; }
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('/fonts/PressStart2P-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
-.flash { padding: 0.8rem 1rem; }
-.flash.success { border-left: 4px solid #2ecc71; }
-.flash.error { border-left: 4px solid #e74c3c; }
+:root {
+    --claro: #979f7e;
+    --escuro: #222a10;
+    --medio: #4e563a;
+    --apagado: #7b8362;
+    --brilho: #b3bb92;
+    --suave: #2f3819;
+    --neutro: #8b9370;
+    --fonte: 'Press Start 2P', monospace;
+    --sombra-card: 6px 6px 0 var(--medio);
+    --sombra-imagem: 8px 8px 0 var(--escuro);
+}
 
-.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-.game-card { margin: 0; padding: 0; overflow: hidden; }
-.game-card a { text-decoration: none; }
-.game-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
-.game-card h4 { margin: 0.6rem 0.8rem 0.2rem; font-size: 1rem; }
-.game-card small { display: block; margin: 0 0.8rem 0.8rem; }
+:root:not([data-theme='dark']),
+[data-theme='light'] {
+    --tema-fundo: var(--claro);
+    --tema-texto: var(--escuro);
+    --tema-hover: var(--medio);
+    --tema-secundario: var(--suave);
+    --tema-vazio: color-mix(in srgb, var(--escuro) 30%, var(--claro));
+    --tema-card: transparent;
+    --tema-erro: #6b1a0c;
+    color-scheme: light;
+}
 
-.cover { width: 100%; aspect-ratio: 21 / 9; max-height: 360px; object-fit: cover; border-radius: 0.5rem; display: block; margin-bottom: 1rem; }
-.shot { width: 100%; aspect-ratio: 16 / 9; max-height: 420px; object-fit: cover; border-radius: 0.5rem; display: block; margin-bottom: 1rem; }
-.info { display: grid; grid-template-columns: max-content 1fr; gap: 0.6rem 1.5rem; }
-.info dt { font-weight: 600; }
-.info dd { margin: 0; }
-.tags span { display: inline-block; padding: 0.1rem 0.7rem; margin: 0.15rem 0.2rem 0.15rem 0; border-radius: 1rem; background: var(--pico-muted-border-color); font-size: 0.8rem; }
-@media (max-width: 600px) { .info { grid-template-columns: 1fr; } .info dd { margin-bottom: 0.6rem; } }
-.desc, .review p, .bio { white-space: pre-line; }
+:root:not([data-theme='light']),
+[data-theme='dark'] {
+    --tema-fundo: var(--escuro);
+    --tema-texto: var(--claro);
+    --tema-hover: var(--brilho);
+    --tema-secundario: var(--neutro);
+    --tema-vazio: color-mix(in srgb, var(--claro) 30%, var(--escuro));
+    --tema-card: var(--escuro);
+    --tema-erro: #e8a493;
+    color-scheme: dark;
+}
 
-.review { margin: 0 0 1rem; }
-.review footer { display: flex; justify-content: space-between; align-items: center; }
-.stars { font-size: 1.1rem; }
-.stars .star { color: #666; }
-.stars .star.full { color: #f5c518; }
-.stars .star.half { background: linear-gradient(90deg, #f5c518 50%, #666 50%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+:root:not([data-theme='dark']),
+[data-theme='light'],
+:root:not([data-theme='light']),
+[data-theme='dark'] {
+    --pico-font-family: var(--fonte);
+    --pico-font-weight: 400;
+    --pico-line-height: 2;
+    --pico-border-radius: 0;
+    --pico-border-width: 3px;
+    --pico-outline-width: 3px;
+    --pico-form-element-spacing-vertical: 0.8rem;
+    --pico-form-element-spacing-horizontal: 1rem;
+    --pico-background-color: var(--tema-fundo);
+    --pico-color: var(--tema-texto);
+    --pico-muted-color: var(--tema-texto);
+    --pico-muted-border-color: var(--tema-hover);
+    --pico-h1-color: var(--tema-texto);
+    --pico-h2-color: var(--tema-texto);
+    --pico-h3-color: var(--tema-texto);
+    --pico-h4-color: var(--tema-texto);
+    --pico-h5-color: var(--tema-texto);
+    --pico-h6-color: var(--tema-texto);
+    --pico-primary: var(--tema-texto);
+    --pico-primary-background: var(--tema-texto);
+    --pico-primary-border: var(--tema-texto);
+    --pico-primary-underline: var(--tema-hover);
+    --pico-primary-hover: var(--tema-hover);
+    --pico-primary-hover-background: var(--tema-hover);
+    --pico-primary-hover-border: var(--tema-hover);
+    --pico-primary-hover-underline: var(--tema-hover);
+    --pico-primary-focus: var(--tema-hover);
+    --pico-primary-inverse: var(--tema-fundo);
+    --pico-secondary: var(--tema-secundario);
+    --pico-secondary-background: var(--tema-secundario);
+    --pico-secondary-border: var(--tema-secundario);
+    --pico-secondary-underline: var(--tema-secundario);
+    --pico-secondary-hover: var(--tema-texto);
+    --pico-secondary-hover-background: var(--tema-texto);
+    --pico-secondary-hover-border: var(--tema-texto);
+    --pico-secondary-hover-underline: var(--tema-texto);
+    --pico-secondary-focus: var(--tema-hover);
+    --pico-secondary-inverse: var(--tema-fundo);
+    --pico-form-element-background-color: var(--claro);
+    --pico-form-element-selected-background-color: var(--brilho);
+    --pico-form-element-border-color: var(--tema-texto);
+    --pico-form-element-color: var(--escuro);
+    --pico-form-element-placeholder-color: var(--suave);
+    --pico-form-element-active-background-color: var(--brilho);
+    --pico-form-element-active-border-color: var(--tema-texto);
+    --pico-form-element-focus-color: var(--tema-hover);
+    --pico-form-element-disabled-background-color: var(--apagado);
+    --pico-form-element-disabled-border-color: var(--medio);
+    --pico-card-background-color: var(--tema-card);
+    --pico-card-border-color: var(--tema-texto);
+    --pico-card-box-shadow: none;
+    --pico-card-sectioning-background-color: transparent;
+}
 
-.pager { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+[data-theme='dark'] {
+    background-color: var(--pico-background-color);
+    color: var(--pico-color);
+}
 
-/* seletor de estrelas (main) */
-#star-picker { margin-bottom: 1rem; }
-#star-picker .star { font-size: 2.2rem; cursor: pointer; color: #666; user-select: none; }
-#star-picker .star.full { color: #f5c518; }
-#star-picker .star.half {
-  background: linear-gradient(90deg, #f5c518 50%, #666 50%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+body {
+    font-size: 0.7rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    --pico-font-weight: 400;
+    --pico-line-height: 1.7;
+}
+
+h1 {
+    --pico-font-size: 1.05rem;
+}
+
+h2 {
+    --pico-font-size: 0.9rem;
+}
+
+h3 {
+    --pico-font-size: 0.8rem;
+}
+
+h4 {
+    --pico-font-size: 0.6rem;
+}
+
+strong,
+b,
+dt,
+th {
+    font-weight: 400;
+}
+
+button,
+input,
+select,
+textarea,
+[role='button'] {
+    font-size: 0.7rem;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.inline-form {
+    display: inline;
+    margin: 0;
+}
+
+.inline-form button {
+    margin: 0;
+}
+
+button.small,
+a[role='button'].small {
+    margin: 0;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.55rem;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icone-diamante,
+.star {
+    display: inline-block;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.icone-diamante {
+    width: 1.9rem;
+    height: 1.7rem;
+    background-color: currentColor;
+    -webkit-mask-image: url('/img/diamante.png');
+    mask-image: url('/img/diamante.png');
+}
+
+.star {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.2rem;
+    overflow: hidden;
+    vertical-align: middle;
+    font-size: 0;
+    color: transparent;
+    background-color: var(--tema-vazio);
+    -webkit-mask-image: url('/img/estrela.png');
+    mask-image: url('/img/estrela.png');
+}
+
+.star.full {
+    background-color: var(--tema-texto);
+}
+
+.star.half {
+    background: linear-gradient(90deg, var(--tema-texto) 50%, var(--tema-vazio) 50%);
+}
+
+#star-picker {
+    margin-bottom: 1rem;
+}
+
+#star-picker .star {
+    width: 2.2rem;
+    height: 2.2rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.topo {
+    padding-block: 0;
+}
+
+.topo-linha {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+}
+
+.logo-img,
+.icone-usuario {
+    width: auto;
+    image-rendering: pixelated;
+}
+
+.logo-img {
+    height: 56px;
+}
+
+.logo-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    line-height: 1;
+}
+
+.logo-game {
+    font-size: 1.6rem;
+}
+
+.logo-log {
+    padding-left: 0.3rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+}
+
+.menu {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.menu [role='button'],
+.menu button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    width: auto;
+    margin: 0;
+    line-height: 1.4;
+    text-decoration: none;
+}
+
+.icone-usuario {
+    height: 30px;
+}
+
+.rodape {
+    margin-top: 4rem;
+    padding-block: 3rem;
+}
+
+.intro {
+    margin-bottom: 2.5rem;
+}
+
+.busca {
+    display: flex;
+    align-items: center;
+    max-width: 780px;
+    margin: 0;
+    border: var(--pico-border-width) solid var(--pico-form-element-border-color);
+    border-radius: 0;
+    background-color: var(--pico-form-element-background-color);
+}
+
+.busca:focus-within {
+    outline: var(--pico-outline-width) solid var(--tema-texto);
+    outline-offset: 3px;
+}
+
+.busca input,
+.busca input:focus {
+    flex: 1;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.buscar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    width: auto;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    font-size: 0.95rem;
+}
+
+.filtros {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) auto;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.filtros > * {
+    margin: 0;
+}
+
+.filtros input,
+.filtros select,
+.filtros button {
+    height: 3.4rem;
+    padding-block: 0;
+}
+
+.filtros button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    width: auto;
+    padding-inline: 2.4rem;
+    font-size: 0.8rem;
+}
+
+.grid-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+}
+
+.game-card {
+    margin: 0;
+    padding: 1.2rem 1.2rem 1rem;
+    border: 0;
+    overflow: hidden;
+}
+
+.game-card a {
+    display: block;
+    text-decoration: none;
+}
+
+.capa {
+    margin: 0 6px 6px 0;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--claro);
+    box-shadow: var(--sombra-card);
+}
+
+.game-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-card h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.6rem;
+    margin: 1.4rem 0 1rem;
+    padding: 0.6rem;
+    border: var(--pico-border-width) solid var(--pico-color);
+    text-align: center;
+}
+
+.game-card small {
+    display: block;
+    text-align: center;
+}
+
+.pager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.4rem;
+    margin-top: 1.5rem;
+}
+
+.flash {
+    padding: 1rem 1.2rem;
+    border: var(--pico-border-width) solid var(--pico-color);
+}
+
+.flash.success {
+    border-left-width: 12px;
+}
+
+.flash.error {
+    border-color: var(--tema-erro);
+    border-left-width: 12px;
+}
+
+.cover,
+.shot {
+    display: block;
+    width: calc(100% - 8px);
+    margin: 0 0 1.6rem;
+    border: 3px solid var(--escuro);
+    box-shadow: var(--sombra-imagem);
+    object-fit: cover;
+}
+
+.cover {
+    aspect-ratio: 21 / 9;
+    max-height: 360px;
+}
+
+.shot {
+    aspect-ratio: 16 / 9;
+    max-height: 420px;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.6rem 1.5rem;
+}
+
+.info dd {
+    margin: 0;
+}
+
+.tags span {
+    display: inline-block;
+    margin: 0.15rem 0.2rem 0.15rem 0;
+    padding: 0.3rem 0.7rem;
+    border: 2px solid var(--pico-color);
+    font-size: 0.55rem;
+}
+
+.desc,
+.review p,
+.bio {
+    white-space: pre-line;
+}
+
+.review {
+    margin: 0 0 1rem;
+    padding: 1rem 1.2rem;
+    border: var(--pico-border-width) solid var(--pico-color);
+}
+
+.review > header,
+.review > footer {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+.review > header {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.review > footer {
+    justify-content: space-between;
+    margin-top: 0.6rem;
+}
+
+#review-form {
+    margin: 1rem 0 2rem;
+    padding: 1.6rem;
+    border: 6px solid var(--claro);
+    outline: 4px solid var(--escuro);
+}
+
+.auth-frame {
+    --pico-form-element-spacing-vertical: 1rem;
+    max-width: 780px;
+    margin: 1rem auto 0;
+    padding: 2.4rem;
+    border: 14px solid var(--pico-color);
+}
+
+.auth-frame h1 {
+    margin-bottom: 2rem;
+}
+
+.auth-frame label {
+    font-size: 0.6rem;
+}
+
+.auth-frame button {
+    width: auto;
+}
+
+.perfil-topo {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1rem;
+    border: 10px solid var(--escuro);
+    border-radius: 50%;
+    background-color: var(--claro);
+    color: var(--escuro);
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.nome {
+    --pico-font-size: 1.9rem;
+    margin: 0;
+    text-transform: uppercase;
+    word-break: break-word;
+}
+
+.bio-box {
+    min-height: 180px;
+    margin-bottom: 2rem;
+    padding: 1.2rem 1.4rem;
+    border: var(--pico-border-width) solid var(--pico-color);
+}
+
+.melhores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+    margin-bottom: 2rem;
+    padding: 1.6rem;
+}
+
+.melhores > p {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+.melhor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+.melhor img,
+.melhor .sem-capa {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background-color: var(--claro);
+}
+
+.melhor small {
+    font-size: 0.55rem;
+    line-height: 1.7;
+    text-transform: uppercase;
+}
+
+.ultimo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.ultimo-jogo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    font-size: 0.6rem;
+    line-height: 1.8;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.ultimo-jogo img {
+    flex-shrink: 0;
+    width: 110px;
+    height: 80px;
+    object-fit: cover;
+    background-color: var(--claro);
+}
+
+.ultimo-review {
+    padding: 0.9rem 1.1rem;
+    border: var(--pico-border-width) solid var(--pico-color);
+}
+
+.ultimo-review p {
+    white-space: pre-line;
+}
+
+@media (min-width: 576px) {
+    .grid-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .melhores {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-cards {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .filtros {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .ultimo {
+        grid-template-columns: 1fr;
+    }
+
+    .nome {
+        --pico-font-size: 1.3rem;
+    }
+
+    .logo-game {
+        font-size: 1.2rem;
+    }
+
+    .auth-frame {
+        padding: 1.4rem;
+        border-width: 10px;
+    }
+
+    .info {
+        grid-template-columns: 1fr;
+    }
 }

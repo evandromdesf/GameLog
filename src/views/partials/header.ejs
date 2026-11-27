@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="<%= locals.dark ? 'dark' : 'light' %>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,25 +8,40 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<header class="container">
-  <nav>
-    <ul><li><a href="/"><strong>🎮 GameLog</strong></a></li></ul>
-    <ul>
-      <li><a href="/games">Jogos</a></li>
+<header class="topo" data-theme="dark">
+  <div class="container topo-linha">
+    <a href="/" class="logo" aria-label="GameLog, página inicial">
+      <img src="/img/logo.png" alt="" class="logo-img">
+
+      <span class="logo-texto">
+        <span class="logo-game">GAME</span>
+        <span class="logo-log">LOG</span>
+      </span>
+    </a>
+
+    <nav class="menu" aria-label="Principal">
+      <a href="/games" role="button" class="outline">jogos</a>
+
       <% if (user) { %>
-        <li><a href="/users/<%= user.username %>">@<%= user.username %></a></li>
-        <li>
-          <form method="post" action="/logout" class="inline-form">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="outline secondary">Sair</button>
-          </form>
-        </li>
+        <form method="post" action="/logout" class="inline-form">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button class="outline">sair</button>
+        </form>
+
+        <a href="/users/<%= user.username %>" role="button">
+          <img src="/img/usuario.png" alt="" class="icone-usuario">
+          <span>perfil</span>
+        </a>
       <% } else { %>
-        <li><a href="/login">Entrar</a></li>
-        <li><a href="/register" role="button">Criar conta</a></li>
+        <a href="/login" role="button" class="outline">entrar</a>
+
+        <a href="/register" role="button">
+          <img src="/img/usuario.png" alt="" class="icone-usuario">
+          <span>criar<br>conta</span>
+        </a>
       <% } %>
-    </ul>
-  </nav>
+    </nav>
+  </div>
 </header>
 <main class="container">
   <% if (flash) { %>

@@ -1,13 +1,32 @@
-<%- include('partials/header') %>
-<h1>Criar conta</h1>
-<form method="post" action="/register">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  <label>Usuário <input name="username" value="<%= values.username || '' %>" pattern="[A-Za-z0-9_]{3,20}" required>
-    <small>3 a 20 caracteres: letras, números e _</small></label>
-  <label>E-mail <input type="email" name="email" value="<%= values.email || '' %>" required></label>
-  <label>Senha <input type="password" name="password" minlength="8" maxlength="72" required>
-    <small>Mínimo de 8 caracteres</small></label>
-  <button>Criar conta</button>
-</form>
-<p>Já tem conta? <a href="/login">Entrar</a></p>
+<%- include('partials/header', { dark: true }) %>
+
+<section class="auth-frame" data-theme="dark">
+  <h1>Criar conta</h1>
+
+  <form method="post" action="/register">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <label>
+      Usuário
+      <input name="username" value="<%= values.username || '' %>" pattern="[A-Za-z0-9_]{3,20}" required>
+      <small>3 a 20 caracteres: letras, números e _</small>
+    </label>
+
+    <label>
+      E-mail
+      <input type="email" name="email" value="<%= values.email || '' %>" required>
+    </label>
+
+    <label>
+      Senha
+      <input type="password" name="password" minlength="8" maxlength="72" required>
+      <small>Mínimo de 8 caracteres</small>
+    </label>
+
+    <button>Criar conta</button>
+  </form>
+
+  <p>Já tem conta? <a href="/login">Entrar</a></p>
+</section>
+
 <%- include('partials/footer') %>
