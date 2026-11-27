@@ -13,3 +13,11 @@ Mini Letterboxd para jogos: busque jogos (API da [RAWG](https://rawg.io)), dê n
 5. `npm run dev` e abra http://localhost:3000
 
 Dados de jogos e imagens: [RAWG](https://rawg.io).
+
+## Demo online
+
+O projeto foi publicado com o [Render](https://render.com) e pode ser acessado em:
+
+**https://gamelog-lakd.onrender.com/**
+
+> Está no plano gratuito: após alguns minutos sem acesso o serviço fica inativo, então a primeira visita pode levar cerca de 1 minuto para carregar. Além disso, os dados podem ser apagados se o serviço for reiniciado ou publicado de novo.
